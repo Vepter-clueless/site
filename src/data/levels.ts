@@ -1,0 +1,680 @@
+import { Badge, DetectiveCase, ModuleId, NetworkDevice, CableConnection } from '../types/network';
+
+export interface LevelInfo {
+  id: string;
+  moduleId: ModuleId;
+  levelIndex: number;
+  title: string;
+  subtitle: string;
+  instructions: string;
+  didacticConcept: string;
+  analogousStory: string;
+  devices: NetworkDevice[];
+  connections: CableConnection[];
+  goalDescription: string;
+}
+
+export const BADGES: Badge[] = [
+  {
+    id: 'first-cable',
+    title: 'První spojení',
+    description: 'Úspěšně jsi natáhl svůj první síťový kabel!',
+    icon: 'cable',
+  },
+  {
+    id: 'home-architect',
+    title: 'Domácí správce',
+    description: 'Správně jsi zapojil celou bezdrátovou domácí Wi-Fi síť.',
+    icon: 'wifi',
+  },
+  {
+    id: 'school-sysadmin',
+    title: 'Školní administrátor',
+    description: 'Postavil jsi fungující počítačovou učebnu se switchem a routerem.',
+    icon: 'server',
+  },
+  {
+    id: 'dhcp-master',
+    title: 'Mistr DHCP',
+    description: 'Přidělil jsi všem zařízením unikátní IP adresy bez jediné kolize.',
+    icon: 'cpu',
+  },
+  {
+    id: 'packet-navigator',
+    title: 'Průvodce paketů',
+    description: 'Odeslal jsi data v lokální síti i ven do širého internetu.',
+    icon: 'mail',
+  },
+  {
+    id: 'detective-bronze',
+    title: 'Síťový vyšetřovatel',
+    description: 'Vyřešil jsi své první zapeklité síťové případy!',
+    icon: 'shield-check',
+  },
+  {
+    id: 'detective-gold',
+    title: 'Hlavní síťový inspektor',
+    description: 'Dokončil jsi všechny detektivní případy a zachránil školní síť!',
+    icon: 'award',
+  },
+];
+
+// LEVEL 1: Domácí síť
+export const HOME_NETWORK_LEVEL: LevelInfo = {
+  id: 'builder-home',
+  moduleId: 'builder',
+  levelIndex: 1,
+  title: '1. Úroveň: Domácí Wi-Fi síť',
+  subtitle: 'Propojení chytré domácnosti bez drátů',
+  instructions: 'Připoj notebook, chytrý telefon a Smart TV k domácímu Wi-Fi routeru kliknutím nebo tažením bezdrátového spojení na router.',
+  didacticConcept: 'Domácí Wi-Fi router vysílá neviditelné rádiové vlny v pásmu 2.4 GHz nebo 5 GHz. Všechna bezdrátová zařízení doma komunikují přímo s tímto jedním centrálním bodem.',
+  analogousStory: 'Představ si router jako rozhlasovou stanici v pokoji a mobil s notebookem jako posluchače, kteří si s ním povídají přes vysílačku.',
+  goalDescription: 'Připoj všechna 3 zařízení k Wi-Fi routeru.',
+  devices: [
+    {
+      id: 'dev-router-home',
+      type: 'router',
+      name: 'Domácí Wi-Fi Router',
+      x: 380,
+      y: 190,
+      ip: '192.168.1.1',
+      subnetMask: '255.255.255.0',
+      defaultGateway: '192.168.1.1',
+      macAddress: 'C4:04:15:AA:BB:01',
+      ports: [
+        { id: 'p-wifi', name: 'Wi-Fi 2.4/5GHz', type: 'wifi', position: 'top' },
+        { id: 'p-wan', name: 'WAN (Optika / Internet)', type: 'wan', position: 'bottom' },
+        { id: 'p-lan1', name: 'LAN 1', type: 'ethernet', position: 'left' },
+        { id: 'p-lan2', name: 'LAN 2', type: 'ethernet', position: 'right' },
+      ],
+      status: 'ok',
+      isFixed: true,
+    },
+    {
+      id: 'dev-laptop-home',
+      type: 'laptop',
+      name: 'Pracovní Notebook',
+      x: 120,
+      y: 80,
+      ip: '192.168.1.10',
+      subnetMask: '255.255.255.0',
+      defaultGateway: '192.168.1.1',
+      macAddress: '58:94:6B:11:22:33',
+      ports: [
+        { id: 'p-lap-wifi', name: 'Wi-Fi anténa', type: 'wifi', position: 'right' },
+      ],
+      status: 'unconnected',
+    },
+    {
+      id: 'dev-phone-home',
+      type: 'phone',
+      name: 'Chytrý Mobil',
+      x: 650,
+      y: 90,
+      ip: '192.168.1.11',
+      subnetMask: '255.255.255.0',
+      defaultGateway: '192.168.1.1',
+      macAddress: '8C:85:90:44:55:66',
+      ports: [
+        { id: 'p-pho-wifi', name: 'Wi-Fi anténa', type: 'wifi', position: 'left' },
+      ],
+      status: 'unconnected',
+    },
+    {
+      id: 'dev-tv-home',
+      type: 'smart-tv',
+      name: 'Chytrá Televize',
+      x: 380,
+      y: 350,
+      ip: '192.168.1.12',
+      subnetMask: '255.255.255.0',
+      defaultGateway: '192.168.1.1',
+      macAddress: '00:1E:8C:77:88:99',
+      ports: [
+        { id: 'p-tv-wifi', name: 'Wi-Fi modul', type: 'wifi', position: 'top' },
+      ],
+      status: 'unconnected',
+    },
+  ],
+  connections: [],
+};
+
+// LEVEL 2: Školní učebna
+export const SCHOOL_NETWORK_LEVEL: LevelInfo = {
+  id: 'builder-school',
+  moduleId: 'builder',
+  levelIndex: 2,
+  title: '2. Úroveň: Počítačová učebna',
+  subtitle: 'Fyzické kabely, centrální Switch a Router',
+  instructions: 'Propoj učitelský PC a žákovské počítače kabely do switche. Poté switch jedním kabelem propoj s hlavním školním routerem.',
+  didacticConcept: 'Ve škole se používá přepínač (switch), protože router nemá dost portů pro desítky počítačů. Switch bleskově přepíná komunikaci mezi počítači v učebně a router zajišťuje spojení ven do světa.',
+  analogousStory: 'Switch je jako křižovatka na chodbě školy, kde si žáci vyměňují sešity. Router je jako vrátný u vchodu do školy, který pouští poštu z venkovního světa.',
+  goalDescription: 'Všechny 4 počítače zapoj do switche a switch propoj s routerem.',
+  devices: [
+    {
+      id: 'dev-school-router',
+      type: 'router',
+      name: 'Školní Router (Brána)',
+      x: 100,
+      y: 190,
+      ip: '192.168.1.1',
+      subnetMask: '255.255.255.0',
+      defaultGateway: '192.168.1.1',
+      macAddress: '00:50:56:01:02:03',
+      ports: [
+        { id: 'p-r-lan', name: 'LAN port', type: 'ethernet', position: 'right' },
+        { id: 'p-r-wan', name: 'WAN (Optika MŠMT)', type: 'wan', position: 'left' },
+      ],
+      status: 'ok',
+      isFixed: true,
+    },
+    {
+      id: 'dev-school-switch',
+      type: 'switch',
+      name: 'Učební Switch (Přepínač)',
+      x: 350,
+      y: 190,
+      ip: '192.168.1.250',
+      subnetMask: '255.255.255.0',
+      defaultGateway: '192.168.1.1',
+      macAddress: '00:15:5D:AA:BB:CC',
+      ports: [
+        { id: 'p-sw-uplink', name: 'Uplink (Router)', type: 'ethernet', position: 'left' },
+        { id: 'p-sw-p1', name: 'Port 1 (Učitel)', type: 'ethernet', position: 'top' },
+        { id: 'p-sw-p2', name: 'Port 2 (Žák 1)', type: 'ethernet', position: 'top' },
+        { id: 'p-sw-p3', name: 'Port 3 (Žák 2)', type: 'ethernet', position: 'bottom' },
+        { id: 'p-sw-p4', name: 'Port 4 (Žák 3)', type: 'ethernet', position: 'bottom' },
+      ],
+      status: 'ok',
+      isFixed: true,
+    },
+    {
+      id: 'dev-teacher-pc',
+      type: 'pc-teacher',
+      name: 'Učitelský PC',
+      x: 580,
+      y: 50,
+      ip: '192.168.1.2',
+      subnetMask: '255.255.255.0',
+      defaultGateway: '192.168.1.1',
+      macAddress: '70:85:C2:10:20:30',
+      ports: [
+        { id: 'p-teach-eth', name: 'LAN (RJ-45)', type: 'ethernet', position: 'left' },
+      ],
+      status: 'unconnected',
+    },
+    {
+      id: 'dev-student1-pc',
+      type: 'pc-student',
+      name: 'Žák 1 (Pavel)',
+      x: 750,
+      y: 50,
+      ip: '192.168.1.10',
+      subnetMask: '255.255.255.0',
+      defaultGateway: '192.168.1.1',
+      macAddress: '70:85:C2:10:20:31',
+      ports: [
+        { id: 'p-st1-eth', name: 'LAN (RJ-45)', type: 'ethernet', position: 'left' },
+      ],
+      status: 'unconnected',
+    },
+    {
+      id: 'dev-student2-pc',
+      type: 'pc-student',
+      name: 'Žák 2 (Lucie)',
+      x: 580,
+      y: 330,
+      ip: '192.168.1.11',
+      subnetMask: '255.255.255.0',
+      defaultGateway: '192.168.1.1',
+      macAddress: '70:85:C2:10:20:32',
+      ports: [
+        { id: 'p-st2-eth', name: 'LAN (RJ-45)', type: 'ethernet', position: 'left' },
+      ],
+      status: 'unconnected',
+    },
+    {
+      id: 'dev-student3-pc',
+      type: 'pc-student',
+      name: 'Žák 3 (Honza)',
+      x: 750,
+      y: 330,
+      ip: '192.168.1.12',
+      subnetMask: '255.255.255.0',
+      defaultGateway: '192.168.1.1',
+      macAddress: '70:85:C2:10:20:33',
+      ports: [
+        { id: 'p-st3-eth', name: 'LAN (RJ-45)', type: 'ethernet', position: 'left' },
+      ],
+      status: 'unconnected',
+    },
+  ],
+  connections: [],
+};
+
+// DETECTIVE CASES
+export const DETECTIVE_CASES: DetectiveCase[] = [
+  {
+    id: 'case-1-unplugged',
+    caseNumber: 1,
+    title: 'Případ 1: Zmizelý internet u lavice č. 3',
+    reporter: 'Tonda (7.B)',
+    problemReport: '„Paní učitelko, mně nejde internet ani odevzdat prezentace! Vůbec mi nesvítí kontrolka u počítače.“',
+    symptom: 'Počítač Žáka 3 je zcela odříznutý od sítě a má status Offline.',
+    hint: 'Podívej se pozorně na kabely vedoucí do switche pod stolem.',
+    didacticFact: 'Fyzická vrstva je základ – bez zastrčeného kabelu nebo zapnuté Wi-Fi žádná data neprojdou, ani kdybys měl nastavenou sebedokonalejší IP adresu.',
+    devices: [
+      {
+        id: 'det-r1',
+        type: 'router',
+        name: 'Školní Router',
+        x: 100,
+        y: 190,
+        ip: '192.168.1.1',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '00:50:56:01:02:01',
+        ports: [
+          { id: 'p1', name: 'LAN', type: 'ethernet', position: 'right' },
+        ],
+        status: 'ok',
+        isFixed: true,
+      },
+      {
+        id: 'det-sw1',
+        type: 'switch',
+        name: 'Učební Switch',
+        x: 350,
+        y: 190,
+        ip: '192.168.1.250',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '00:15:5D:AA:01:01',
+        ports: [
+          { id: 'sw-up', name: 'Uplink', type: 'ethernet', position: 'left' },
+          { id: 'sw-p1', name: 'Port 1', type: 'ethernet', position: 'top' },
+          { id: 'sw-p2', name: 'Port 2', type: 'ethernet', position: 'top' },
+          { id: 'sw-p3', name: 'Port 3', type: 'ethernet', position: 'bottom' },
+        ],
+        status: 'ok',
+        isFixed: true,
+      },
+      {
+        id: 'det-pc1',
+        type: 'pc-student',
+        name: 'Žák 1 (Marek)',
+        x: 620,
+        y: 60,
+        ip: '192.168.1.10',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '70:85:C2:20:01:01',
+        ports: [{ id: 'pc1-eth', name: 'LAN', type: 'ethernet', position: 'left' }],
+        status: 'ok',
+      },
+      {
+        id: 'det-pc2',
+        type: 'pc-student',
+        name: 'Žák 2 (Eliška)',
+        x: 820,
+        y: 60,
+        ip: '192.168.1.11',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '70:85:C2:20:01:02',
+        ports: [{ id: 'pc2-eth', name: 'LAN', type: 'ethernet', position: 'left' }],
+        status: 'ok',
+      },
+      {
+        id: 'det-pc3-broken',
+        type: 'pc-student',
+        name: 'Žák 3 (Tonda)',
+        x: 720,
+        y: 320,
+        ip: '192.168.1.12',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '70:85:C2:20:01:03',
+        ports: [{ id: 'pc3-eth', name: 'LAN', type: 'ethernet', position: 'left' }],
+        status: 'unconnected',
+      },
+    ],
+    connections: [
+      { id: 'c1', fromDeviceId: 'det-r1', fromPortId: 'p1', toDeviceId: 'det-sw1', toPortId: 'sw-up', medium: 'cable', status: 'active' },
+      { id: 'c2', fromDeviceId: 'det-sw1', fromPortId: 'sw-p1', toDeviceId: 'det-pc1', toPortId: 'pc1-eth', medium: 'cable', status: 'active' },
+      { id: 'c3', fromDeviceId: 'det-sw1', fromPortId: 'sw-p2', toDeviceId: 'det-pc2', toPortId: 'pc2-eth', medium: 'cable', status: 'active' },
+    ],
+    validateFix: (devs, conns) => {
+      const isConnected = conns.some(
+        c => (c.fromDeviceId === 'det-pc3-broken' && c.toDeviceId === 'det-sw1') ||
+             (c.toDeviceId === 'det-pc3-broken' && c.fromDeviceId === 'det-sw1')
+      );
+      return {
+        isFixed: isConnected,
+        reason: isConnected ? 'Výborně! Tondův kabel je pevně zacvaknutý ve switchi.' : 'Tondův počítač stále nemá zapojený síťový kabel do switche.',
+      };
+    },
+  },
+  {
+    id: 'case-2-ip-conflict',
+    caseNumber: 2,
+    title: 'Případ 2: Dvojí identita (Kolize IP)',
+    reporter: 'Správce sítě p. Novák',
+    problemReport: '„Dva počítače se hádají o spojení! Jednou funguje jeden, za vteřinu druhý a pakety se ztrácejí.“',
+    symptom: 'Petr a Jana mají shodnou IP adresu 192.168.1.15. Obě zařízení blikají červeně.',
+    hint: 'Klikni na Janin nebo Petrův počítač a změň jeho IP adresu na unikátní číslo (např. 192.168.1.16).',
+    didacticFact: 'IP adresa je jako číslo popisné domu. Kdyby měly dva domy ve stejné ulici stejné číslo, pošťák by nevěděl, kam dopis hodit.',
+    devices: [
+      {
+        id: 'det-r2',
+        type: 'router',
+        name: 'Školní Router',
+        x: 100,
+        y: 190,
+        ip: '192.168.1.1',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '00:50:56:02:02:01',
+        ports: [{ id: 'p1', name: 'LAN', type: 'ethernet', position: 'right' }],
+        status: 'ok',
+        isFixed: true,
+      },
+      {
+        id: 'det-sw2',
+        type: 'switch',
+        name: 'Učební Switch',
+        x: 350,
+        y: 190,
+        ip: '192.168.1.250',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '00:15:5D:AA:02:01',
+        ports: [
+          { id: 'sw-up', name: 'Uplink', type: 'ethernet', position: 'left' },
+          { id: 'sw-p1', name: 'Port 1', type: 'ethernet', position: 'top' },
+          { id: 'sw-p2', name: 'Port 2', type: 'ethernet', position: 'bottom' },
+        ],
+        status: 'ok',
+        isFixed: true,
+      },
+      {
+        id: 'det-pc-petr',
+        type: 'pc-student',
+        name: 'Žák Petr',
+        x: 650,
+        y: 70,
+        ip: '192.168.1.15',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '70:85:C2:22:01:01',
+        ports: [{ id: 'p-eth', name: 'LAN', type: 'ethernet', position: 'left' }],
+        status: 'ip-conflict',
+      },
+      {
+        id: 'det-pc-jana',
+        type: 'pc-student',
+        name: 'Žákyně Jana',
+        x: 650,
+        y: 310,
+        ip: '192.168.1.15', // CONFLICT!
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '70:85:C2:22:01:02',
+        ports: [{ id: 'p-eth', name: 'LAN', type: 'ethernet', position: 'left' }],
+        status: 'ip-conflict',
+      },
+    ],
+    connections: [
+      { id: 'c1', fromDeviceId: 'det-r2', fromPortId: 'p1', toDeviceId: 'det-sw2', toPortId: 'sw-up', medium: 'cable', status: 'active' },
+      { id: 'c2', fromDeviceId: 'det-sw2', fromPortId: 'sw-p1', toDeviceId: 'det-pc-petr', toPortId: 'p-eth', medium: 'cable', status: 'active' },
+      { id: 'c3', fromDeviceId: 'det-sw2', fromPortId: 'sw-p2', toDeviceId: 'det-pc-jana', toPortId: 'p-eth', medium: 'cable', status: 'active' },
+    ],
+    validateFix: (devs) => {
+      const petr = devs.find(d => d.id === 'det-pc-petr');
+      const jana = devs.find(d => d.id === 'det-pc-jana');
+      if (!petr || !jana) return { isFixed: false, reason: 'Chyba zařízení.' };
+      const isUnique = petr.ip !== jana.ip && petr.ip.startsWith('192.168.1.') && jana.ip.startsWith('192.168.1.');
+      return {
+        isFixed: isUnique,
+        reason: isUnique ? 'Skvělá práce! Každý počítač má nyní svou vlastní unikátní IP adresu.' : 'Stále mají oba počítače shodnou IP adresu!',
+      };
+    },
+  },
+  {
+    id: 'case-3-wrong-subnet',
+    caseNumber: 3,
+    title: 'Případ 3: Zbloudilý notebook (Cizí podsíť)',
+    reporter: 'Učitel pan Dvořák',
+    problemReport: '„Přinesl jsem si do učebny svůj domácí notebook, zapojil ho kabelem, ale nevidím školní tiskárnu ani ostatní.“',
+    symptom: 'Notebook má IP 10.0.0.5, zatímco školní síť je 192.168.1.x.',
+    hint: 'Změň IP adresu notebooku tak, aby začínala na 192.168.1. (např. 192.168.1.88).',
+    didacticFact: 'Síťová maska a první tři čísla (192.168.1) určují „město a ulici“. Počítač z cizí sítě (10.0.0.x) je jako cizinec na jiné planetě.',
+    devices: [
+      {
+        id: 'det-r3',
+        type: 'router',
+        name: 'Školní Router',
+        x: 100,
+        y: 190,
+        ip: '192.168.1.1',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '00:50:56:03:02:01',
+        ports: [{ id: 'p1', name: 'LAN', type: 'ethernet', position: 'right' }],
+        status: 'ok',
+        isFixed: true,
+      },
+      {
+        id: 'det-sw3',
+        type: 'switch',
+        name: 'Učební Switch',
+        x: 350,
+        y: 190,
+        ip: '192.168.1.250',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '00:15:5D:AA:03:01',
+        ports: [
+          { id: 'sw-up', name: 'Uplink', type: 'ethernet', position: 'left' },
+          { id: 'sw-p1', name: 'Port 1', type: 'ethernet', position: 'top' },
+          { id: 'sw-p2', name: 'Port 2', type: 'ethernet', position: 'bottom' },
+        ],
+        status: 'ok',
+        isFixed: true,
+      },
+      {
+        id: 'det-teach-pc',
+        type: 'pc-teacher',
+        name: 'Stolní PC Učebny',
+        x: 650,
+        y: 70,
+        ip: '192.168.1.2',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '70:85:C2:23:01:01',
+        ports: [{ id: 'p-eth', name: 'LAN', type: 'ethernet', position: 'left' }],
+        status: 'ok',
+      },
+      {
+        id: 'det-laptop-wrong',
+        type: 'laptop',
+        name: 'Učitelský Notebook',
+        x: 650,
+        y: 310,
+        ip: '10.0.0.5', // WRONG SUBNET!
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '70:85:C2:23:01:02',
+        ports: [{ id: 'p-eth', name: 'LAN', type: 'ethernet', position: 'left' }],
+        status: 'wrong-subnet',
+      },
+    ],
+    connections: [
+      { id: 'c1', fromDeviceId: 'det-r3', fromPortId: 'p1', toDeviceId: 'det-sw3', toPortId: 'sw-up', medium: 'cable', status: 'active' },
+      { id: 'c2', fromDeviceId: 'det-sw3', fromPortId: 'sw-p1', toDeviceId: 'det-teach-pc', toPortId: 'p-eth', medium: 'cable', status: 'active' },
+      { id: 'c3', fromDeviceId: 'det-sw3', fromPortId: 'sw-p2', toDeviceId: 'det-laptop-wrong', toPortId: 'p-eth', medium: 'cable', status: 'active' },
+    ],
+    validateFix: (devs) => {
+      const laptop = devs.find(d => d.id === 'det-laptop-wrong');
+      const isCorrect = !!laptop && laptop.ip.startsWith('192.168.1.') && laptop.ip !== '192.168.1.1' && laptop.ip !== '192.168.1.2';
+      return {
+        isFixed: isCorrect,
+        reason: isCorrect ? 'Skvěle! Notebook je nyní ve stejné podsíti 192.168.1.x a rozumí si se školními PC.' : 'Notebook má stále IP adresu z cizí sítě (musí začínat na 192.168.1.).',
+      };
+    },
+  },
+  {
+    id: 'case-4-missing-gateway',
+    caseNumber: 4,
+    title: 'Případ 4: Ztraceni ve třídě (Chybějící brána)',
+    reporter: 'Žákyně Klára',
+    problemReport: '„Můžu poslat soubor spolužákovi i učiteli přes Veyon, ale když chci otevřít Wikipedii na internetu, napíše to Stránka nenalezena.“',
+    symptom: 'Lokální komunikace funguje, ale paket do internetu zabloudí, protože PC neví, kde je výchozí brána (Default Gateway = 0.0.0.0).',
+    hint: 'Zadej jako výchozí bránu (Default Gateway) IP adresu školního routeru: 192.168.1.1.',
+    didacticFact: 'Výchozí brána (Default Gateway) je IP adresa routeru. Říká počítači: „Když chceš poslat data někam ven mimo naši třídu, předej je mně!“',
+    devices: [
+      {
+        id: 'det-r4',
+        type: 'router',
+        name: 'Školní Router (Brána)',
+        x: 100,
+        y: 190,
+        ip: '192.168.1.1',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '00:50:56:04:02:01',
+        ports: [{ id: 'p1', name: 'LAN', type: 'ethernet', position: 'right' }],
+        status: 'ok',
+        isFixed: true,
+      },
+      {
+        id: 'det-sw4',
+        type: 'switch',
+        name: 'Učební Switch',
+        x: 350,
+        y: 190,
+        ip: '192.168.1.250',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '00:15:5D:AA:04:01',
+        ports: [
+          { id: 'sw-up', name: 'Uplink', type: 'ethernet', position: 'left' },
+          { id: 'sw-p1', name: 'Port 1', type: 'ethernet', position: 'top' },
+          { id: 'sw-p2', name: 'Port 2', type: 'ethernet', position: 'bottom' },
+        ],
+        status: 'ok',
+        isFixed: true,
+      },
+      {
+        id: 'det-pc-klara',
+        type: 'pc-student',
+        name: 'Žákyně Klára',
+        x: 650,
+        y: 190,
+        ip: '192.168.1.20',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '0.0.0.0', // BROKEN GATEWAY!
+        macAddress: '70:85:C2:24:01:01',
+        ports: [{ id: 'p-eth', name: 'LAN', type: 'ethernet', position: 'left' }],
+        status: 'ok',
+      },
+    ],
+    connections: [
+      { id: 'c1', fromDeviceId: 'det-r4', fromPortId: 'p1', toDeviceId: 'det-sw4', toPortId: 'sw-up', medium: 'cable', status: 'active' },
+      { id: 'c2', fromDeviceId: 'det-sw4', fromPortId: 'sw-p1', toDeviceId: 'det-pc-klara', toPortId: 'p-eth', medium: 'cable', status: 'active' },
+    ],
+    validateFix: (devs) => {
+      const klara = devs.find(d => d.id === 'det-pc-klara');
+      const isFixed = !!klara && klara.defaultGateway === '192.168.1.1';
+      return {
+        isFixed,
+        reason: isFixed ? 'Perfektní! Klára má nastavenou výchozí bránu 192.168.1.1 a její pakety už bezpečně trefí do internetu.' : 'Výchozí brána stále není nastavena na IP adresu routeru (192.168.1.1).',
+      };
+    },
+  },
+  {
+    id: 'case-5-severed-backbone',
+    caseNumber: 5,
+    title: 'Případ 5: Celá učebna bez internetu (Přerušený Uplink)',
+    reporter: 'Ředitel školy',
+    problemReport: '„Žádný počítač v učebně informatiky nemá přístup k internetu! Počítače mezi sebou komunikují, ale nic ven neprojde.“',
+    symptom: 'Switch je odpojen od routeru – chybí propojovací kabel (Uplink).',
+    hint: 'Zkontroluj propojení mezi switchem a hlavním školním routerem.',
+    didacticFact: 'Páteřní spoj (Uplink) mezi switchem a routerem nese veškerý internetový provoz celé učebny. Pokud je přerušen, nikdo se ven nedostane.',
+    devices: [
+      {
+        id: 'det-r5',
+        type: 'router',
+        name: 'Školní Router',
+        x: 100,
+        y: 190,
+        ip: '192.168.1.1',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '00:50:56:05:02:01',
+        ports: [{ id: 'p-lan', name: 'LAN port', type: 'ethernet', position: 'right' }],
+        status: 'ok',
+        isFixed: true,
+      },
+      {
+        id: 'det-sw5',
+        type: 'switch',
+        name: 'Učební Switch',
+        x: 350,
+        y: 190,
+        ip: '192.168.1.250',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '00:15:5D:AA:05:01',
+        ports: [
+          { id: 'sw-up', name: 'Uplink', type: 'ethernet', position: 'left' },
+          { id: 'sw-p1', name: 'Port 1', type: 'ethernet', position: 'top' },
+          { id: 'sw-p2', name: 'Port 2', type: 'ethernet', position: 'bottom' },
+        ],
+        status: 'ok',
+        isFixed: true,
+      },
+      {
+        id: 'det-pc-s1',
+        type: 'pc-student',
+        name: 'Žák 1',
+        x: 650,
+        y: 70,
+        ip: '192.168.1.10',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '70:85:C2:25:01:01',
+        ports: [{ id: 'p-eth', name: 'LAN', type: 'ethernet', position: 'left' }],
+        status: 'ok',
+      },
+      {
+        id: 'det-pc-s2',
+        type: 'pc-student',
+        name: 'Žák 2',
+        x: 650,
+        y: 310,
+        ip: '192.168.1.11',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.1.1',
+        macAddress: '70:85:C2:25:01:02',
+        ports: [{ id: 'p-eth', name: 'LAN', type: 'ethernet', position: 'left' }],
+        status: 'ok',
+      },
+    ],
+    connections: [
+      // Missing connection between det-r5 and det-sw5!
+      { id: 'c1', fromDeviceId: 'det-sw5', fromPortId: 'sw-p1', toDeviceId: 'det-pc-s1', toPortId: 'p-eth', medium: 'cable', status: 'active' },
+      { id: 'c2', fromDeviceId: 'det-sw5', fromPortId: 'sw-p2', toDeviceId: 'det-pc-s2', toPortId: 'p-eth', medium: 'cable', status: 'active' },
+    ],
+    validateFix: (devs, conns) => {
+      const isUplinkConnected = conns.some(
+        c => (c.fromDeviceId === 'det-r5' && c.toDeviceId === 'det-sw5') ||
+             (c.toDeviceId === 'det-r5' && c.fromDeviceId === 'det-sw5')
+      );
+      return {
+        isFixed: isUplinkConnected,
+        reason: isUplinkConnected ? 'Vynikající! Páteřní kabel byl zapojen a celá učebna je zpátky online.' : 'Stále chybí kabelové spojení mezi hlavním routerem a učebním switchem.',
+      };
+    },
+  },
+];
