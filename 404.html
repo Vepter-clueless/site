@@ -1,22 +1,20 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="cs">
   <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Síťový Průzkumník</title>
-    <script type="text/javascript">
-      // Single Page Apps for GitHub Pages for repository /site/
-      // https://github.com/rafrex/spa-github-pages
-      var segmentCount = 1; // /site/ has 1 path segment
-      var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?p=/' +
-        l.pathname.slice(1).split('/').slice(segmentCount).join('/') +
-        (l.search ? '&q=' + l.search.slice(1) : '') +
-        l.hash
-      );
-    </script>
+    <meta name="description" content="Interaktivní výuková aplikace pro žáky 2. stupně ZŠ k osvojení základů počítačových sítí, topologie LAN/Wi-Fi, přidělování IP adres a směrování paketů." />
+    <meta property="og:title" content="Síťový Průzkumník" />
+    <meta property="og:description" content="Interaktivní výuková aplikace pro žáky 2. stupně ZŠ k osvojení základů počítačových sítí, topologie LAN/Wi-Fi, přidělování IP adres a směrování paketů." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   </head>
   <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

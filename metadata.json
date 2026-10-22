@@ -2,5 +2,7 @@
   "name": "Síťový Průzkumník",
   "description": "Interaktivní výuková aplikace pro žáky 2. stupně ZŠ k osvojení základů počítačových sítí, topologie LAN/Wi-Fi, přidělování IP adres a směrování paketů.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
