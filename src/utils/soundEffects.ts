@@ -8,8 +8,12 @@ class SoundEngine {
   private isMuted: boolean = false;
 
   constructor() {
-    const saved = localStorage.getItem('sitovy_pruzkumnik_muted');
-    this.isMuted = saved === 'true';
+    try {
+      const saved = localStorage.getItem('sitovy_pruzkumnik_muted');
+      this.isMuted = saved === 'true';
+    } catch {
+      this.isMuted = false;
+    }
   }
 
   private initContext() {
@@ -24,7 +28,11 @@ class SoundEngine {
 
   public toggleMute(): boolean {
     this.isMuted = !this.isMuted;
-    localStorage.setItem('sitovy_pruzkumnik_muted', String(this.isMuted));
+    try {
+      localStorage.setItem('sitovy_pruzkumnik_muted', String(this.isMuted));
+    } catch {
+      // Storage can be unavailable in private or restricted browser contexts.
+    }
     return this.isMuted;
   }
 

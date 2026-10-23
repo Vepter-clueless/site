@@ -5,7 +5,9 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
-    base: '/site/',
+    // Use relative asset URLs so the build works on GitHub Pages project sites
+    // as well as when hosted from a custom subpath.
+    base: './',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
